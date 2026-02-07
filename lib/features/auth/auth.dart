@@ -7,16 +7,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:to_do_list/core/app_constants.dart';
 import 'package:to_do_list/features/auth/models/user_model.dart';
 import 'package:to_do_list/features/auth/widget/custom_button.dart';
-// import 'package:to_do_list/main.dart';
 
-class Auth extends StatefulWidget {
-  const Auth({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
 
   @override
-  State<Auth> createState() => _AuthState();
+  State<AuthScreen> createState() => _AuthState();
 }
 
-class _AuthState extends State<Auth> {
+class _AuthState extends State<AuthScreen> {
   final user = Hive.box<UserModel>(AppConstants.userBox).getAt(0);
   final ImagePicker picker = ImagePicker();
   //variable to store the image on it frome camera or gallery

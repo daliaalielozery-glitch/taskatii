@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:to_do_list/features/splash/splash_screen.dart';
-// import 'package:to_do_list/features/splash/splash_screen.dart';
+import 'package:to_do_list/features/home/home_screen.dart';
 
 class TodoApp extends StatelessWidget {
   const TodoApp({super.key});
@@ -12,7 +11,7 @@ class TodoApp extends StatelessWidget {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: MaterialApp(home: SplashScreen()),
+      child: MaterialApp(home: HomeScreen()),
     );
   }
 }
