@@ -5,8 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:to_do_list/core/app_constants.dart';
+import 'package:to_do_list/features/add_task/widgets/custom_text_form_field.dart';
 import 'package:to_do_list/features/auth/models/user_model.dart';
 import 'package:to_do_list/features/auth/widget/custom_button.dart';
+import 'package:to_do_list/features/home/home_screen.dart' show HomeScreen;
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -16,7 +18,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthState extends State<AuthScreen> {
-  final user = Hive.box<UserModel>(AppConstants.userBox).getAt(0);
+  // final user = Hive.box<UserModel>(AppConstants.userBox).getAt(0);
   final ImagePicker picker = ImagePicker();
   //variable to store the image on it frome camera or gallery
   XFile? image;
@@ -45,6 +47,11 @@ class _AuthState extends State<AuthScreen> {
               //visibility used to show two widgets  (icon or image)
               Visibility(
                 visible: image == null,
+                replacement: CircleAvatar(
+                  radius: 70.r,
+                  backgroundColor: Color(0xff2F2F2F),
+                  child: Image.file(File(image?.path ?? "")),
+                ),
                 child: CircleAvatar(
                   radius: 70.r,
                   backgroundColor: Color(0xff2F2F2F),
@@ -53,11 +60,6 @@ class _AuthState extends State<AuthScreen> {
                     color: Color(0xFF4F5CD1),
                     size: 120.r,
                   ),
-                ),
-                replacement: CircleAvatar(
-                  radius: 70.r,
-                  backgroundColor: Color(0xff2F2F2F),
-                  child: Image.file(File(image?.path ?? "")),
                 ),
               ),
               CustomButton(
@@ -75,34 +77,28 @@ class _AuthState extends State<AuthScreen> {
                 },
               ),
               Divider(thickness: 1.h),
-              TextFormField(
+              CustomTextFormField(
                 controller: nameController,
-                onTapUpOutside: (v) {
-                  FocusScope.of(context).unfocus();
-                },
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.indigo),
-                  ),
-                  hint: Text("Enter Your Name "),
-                ),
+                hintText: 'Enter Your Name',
               ),
               CustomButton(
                 btn_text: "Done",
-                onPressed: () {
-                  Hive.box<UserModel>(AppConstants.userBox)
-                      .add(
-                        UserModel(
-                          image: image?.path ?? "",
-                          name: nameController.text,
-                        ),
-                      )
-                      .then((s) {
-                        print("Success$s");
-                      })
-                      .catchError((e) {
-                        print("Error$e");
-                      });
+                onPressed: () async {
+                  await Hive.box<UserModel>(
+                    AppConstants.userBox,
+                  ).clear(); // optional (avoid duplicates)
+
+                  await Hive.box<UserModel>(AppConstants.userBox).add(
+                    UserModel(
+                      image: image?.path ?? "",
+                      name: nameController.text,
+                    ),
+                  );
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const HomeScreen()),
+                  );
                 },
               ),
             ],
