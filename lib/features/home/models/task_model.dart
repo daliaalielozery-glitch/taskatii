@@ -1,12 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+part 'task_model.g.dart';
 
-class TaskModel {
+@HiveType(typeId: 1)
+class TaskModel extends HiveObject {
+  @HiveField(0)
   String title;
+  @HiveField(1)
   String startTime;
+  @HiveField(2)
   String endTime;
+  @HiveField(3)
   String stausText;
+  @HiveField(4)
   String description;
-  Color color;
+  @HiveField(5)
+  int color;
 
   TaskModel({
     required this.title,
@@ -16,6 +24,8 @@ class TaskModel {
     required this.startTime,
     required this.stausText,
   });
+
+  // Future<void> save() async {}
 }
 
-final List<TaskModel> allTasks = [];
+List<TaskModel> allTasks = [];

@@ -40,11 +40,18 @@ class TaskCard extends StatelessWidget {
           ),
         ),
       ),
-
+      onDismissed: (direction) async {
+        if (direction == DismissDirection.startToEnd) {
+          task.stausText = "Complete";
+          await task.save();
+        } else if (direction == DismissDirection.endToStart) {
+          await task.delete();
+        }
+      },
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: task.color,
+          color: Color(task.color),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(

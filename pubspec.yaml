@@ -45,10 +45,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-    # we wrote (((any))) here because the versins nof build_runner and hive_generator arn't compatible with each other 
-  build_runner: ^2.4.13 
+
+  build_runner: ^2.4.13
   hive_generator: ^2.0.1
-  analyzer: ^6.4.1
+  analyzer: ^5.13.0   # ⬅️ غيريها للنسخة دي
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

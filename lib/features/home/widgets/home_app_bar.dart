@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:to_do_list/features/auth/models/user_model.dart';
+import 'package:to_do_list/features/update_profile/update_profile_screen.dart'; // import your update screen
 
 class HomeAppBar extends StatelessWidget {
   final Box<UserModel> box;
@@ -36,12 +37,25 @@ class HomeAppBar extends StatelessWidget {
                 ),
               ],
             ),
-            CircleAvatar(
-              radius: 24,
-              backgroundColor: Colors.pinkAccent,
-              backgroundImage: user != null && user.image.isNotEmpty
-                  ? FileImage(File(user.image))
-                  : null,
+
+            // Make profile pic clickable
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => UpdateProfileScreen()),
+                );
+              },
+              child: CircleAvatar(
+                radius: 24,
+                backgroundColor: Colors.pinkAccent,
+                backgroundImage: user != null && user.image.isNotEmpty
+                    ? FileImage(File(user.image))
+                    : null,
+                child: user == null || user.image.isEmpty
+                    ? const Icon(Icons.person, color: Colors.white)
+                    : null,
+              ),
             ),
           ],
         );

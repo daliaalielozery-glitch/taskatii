@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_list/core/app_constants.dart';
 import 'package:to_do_list/features/add_task/widgets/custom_text_form_field.dart';
 import 'package:to_do_list/features/auth/widget/custom_button.dart';
 import 'package:to_do_list/features/home/models/task_model.dart';
@@ -241,12 +243,22 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   btn_text: "Create Task",
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      Hive.box<TaskModel>(AppConstants.taskBox).add(
+                        TaskModel(
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          color: taskColors[activeIndex].toARGB32(),
+                          startTime: startTimeController.text,
+                          endTime: endTimeController.text,
+                          stausText: "TODO",
+                        ),
+                      );
                       // Add the task to the list
                       allTasks.add(
                         TaskModel(
                           title: titleController.text,
                           description: descriptionController.text,
-                          color: taskColors[activeIndex],
+                          color: taskColors[activeIndex].toARGB32(),
                           startTime: startTimeController.text,
                           endTime: endTimeController.text,
                           stausText: "TODO",
